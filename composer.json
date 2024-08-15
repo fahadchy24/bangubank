@@ -1,0 +1,19 @@
+{
+    "name": "php/banguapp",
+    "description": "A simple banking application using PHP.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "fahadchy24",
+            "email": "fahadchy24@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "files": [
+        ],
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
