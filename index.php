@@ -1,9 +1,6 @@
 <?php
 
-use App\Models\Car;
-
-
 require "vendor/autoload.php";
 
+include "./routes/web.php";
 
-include "views/welcome.php";

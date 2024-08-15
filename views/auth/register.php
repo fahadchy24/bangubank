@@ -108,7 +108,7 @@
         <p class="mt-10 text-sm text-center text-gray-500">
           Already a customer?
           <a
-            href="./login.html"
+            href="/login"
             class="font-semibold leading-6 text-emerald-600 hover:text-emerald-500"
             >Sign-in</a
           >
