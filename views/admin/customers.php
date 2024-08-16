@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['name'])) {
+    header('Location:login');
+    exit;
+}
+
+if ($_SESSION['logged_in'] === true && $_SESSION['is_admin'] === false) {
+  header('Location:dashboard');
+  exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -100,7 +115,7 @@
                     aria-labelledby="user-menu-button"
                     tabindex="-1">
                     <a
-                      href="#"
+                      href="/logout"
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                       tabindex="-1"

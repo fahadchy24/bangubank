@@ -1,0 +1,14 @@
+[
+    {
+        "is_admin": true,
+        "name": "Admin",
+        "email": "admin@admin.com",
+        "password": "$2y$10$Ldalika.l\/ffZqR\/T.Z9RuP8WYlYDMRuxPAC4lODBQ8.vDyTeeDQ2"
+    },
+    {
+        "is_admin": false,
+        "name": "Mr Customer",
+        "email": "customer@customer.com",
+        "password": "$2y$10$Ldalika.l\/ffZqR\/T.Z9RuP8WYlYDMRuxPAC4lODBQ8.vDyTeeDQ2"
+    }
+]
