@@ -1,7 +1,8 @@
 <?php
 
-session_start();
+declare(strict_types=1);
 
+session_start();
 
 if (isset($_SESSION['name']) && $_SESSION['logged_in'] === true && $_SESSION['is_admin'] === true) {
   header('Location:customers');
@@ -13,61 +14,8 @@ if (isset($_SESSION['name']) && $_SESSION['logged_in'] === true && $_SESSION['is
   exit;
 }
 
+include './app/Controllers/LoginController.php';
 
-
-$errors = [];
-
-$name = $email = $password = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $userlist = json_decode(file_get_contents("././storage/data/users.json"), true);
-
-  $_SESSION['old_input'] = $_POST;
-
-  // Validate and Sanitize Email Field
-  if (empty($_POST['email'])) {
-    $errors['email'] = 'Please provide an email address';
-  } else {
-    $email = sanitize($_POST['email']);
-
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $errors['email'] = 'Please provide a valid email address';
-    }
-  }
-
-  // Validate and Sanitize Password Field
-  if (empty($_POST['password'])) {
-    $errors['password'] = 'Please provide a password';
-  } elseif (strlen($_POST['password']) < 8) {
-    $errors['password'] = 'Password must be 8 characters long.';
-  } else {
-    $password = sanitize($_POST['password']);
-  }
-
-
-  if (!empty($errors)) {
-    $errors['auth_error'] = 'Something went wrong';
-  }
-
-  foreach ($userlist as $user) {
-    if ($user['email'] == $email && password_verify($password, $user['password'])) {
-      $_SESSION['name'] = $user['name'];
-      $_SESSION['email'] = $user['email'];
-      $_SESSION['is_admin'] = $user['is_admin'];
-      $_SESSION['logged_in'] = true;
-
-      if ($_SESSION['is_admin'] === true) {
-        header('Location:customers');
-        exit;
-      }
-
-      header('Location:dashboard');
-      exit;
-    } else {
-      $errors['auth_error'] = 'The email or password is wrong';
-    }
-  }
-}
 ?>
 
 <!DOCTYPE html>
@@ -116,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
       <div class="px-6 py-12 bg-white shadow sm:rounded-lg sm:px-12">
 
-        <?php if (isset($errors['email']) && isset($errors['password'])) : ?>
+        <?php if (isset($errors['auth_error'])) : ?>
           <div class="my-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4" role="alert">
-            <span class="font-bold">Something went wrong!</span>
+            <span class="font-bold"><?= $errors['auth_error']; ?></span>
           </div>
         <?php endif; ?>
 
@@ -135,8 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 id="email"
                 name="email"
                 type="email"
-                value="<?= old('email') ?>"
                 autocomplete="email"
+                value="<?= old('email') ?>"
                 required
                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 p-2 sm:text-sm sm:leading-6" />
             </div>
